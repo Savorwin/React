@@ -1,13 +1,9 @@
 .table {
     border: 2px solid black;
     background-color: blueviolet;
+    text-align: center;
+    font-size: 18px;
 }
-
-tr {
-    display:flex;
-    flex-direction: column;
-    flex-wrap:      wrap;
-  }
 
 .red {
     background-color: red;
