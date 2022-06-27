@@ -14,89 +14,90 @@ const data = [
     {tick: 9, price: 128, position: 'sell', lots: 11},
 ];
 
-let minPrice = 9999,
-    maxPrice = -1,
-    minTick = 9999,
-    maxTick = -1;
-
-for(let i = 0; i < data.length; i++) {
+function createTable(data) {
   
-  if(data[i].price > maxPrice) {
-    maxPrice = data[i].price;
-  }
-  if(data[i].price < minPrice) {
-    minPrice = data[i].price;
-  }
+  let minPrice = 99999,
+      maxPrice = -1,
+      minTick = 99999,
+      maxTick = -1;
 
-  if(data[i].tick > maxTick) {
-    maxTick = data[i].tick;
-  }
-  if(data[i].tick < minTick) {
-    minTick = data[i].tick;
-  }
+    for(let i = 0; i < data.length; i++) {
+      if(data[i].price > maxPrice) {
+        maxPrice = data[i].price;
+      }
+      if(data[i].price < minPrice) {
+        minPrice = data[i].price;
+      }
+
+      if(data[i].tick > maxTick) {
+        maxTick = data[i].tick;
+      }
+      if(data[i].tick < minTick) {
+        minTick = data[i].tick;
+      }
 }
 
-const table = document.createElement('table');
-      
-table.classList.add('table');
-document.body.append(table);
-table.setAttribute('border', '1px solid black');
- 
-for (let i = maxPrice; i >= minPrice; i--) {
+  const table = document.createElement('table');
+
+  document.body.append(table);
+  table.setAttribute('class', 'table');
+  table.setAttribute('border', '1px solid black');
+
+    for(let i = maxPrice; i >= minPrice; i--) {
+      const tr = document.createElement('tr');
+      table.append(tr);
+
+      for(let j = minTick; j <= maxTick + 1; j++) {
+        const td = document.createElement('td');
+        tr.append(td);
+        td.setAttribute('width', '60px');
+        td.setAttribute('height', '60px');
+
+        if(j < maxTick + 1) {
+        td.setAttribute('id', `p${i}t${j}`);
+        } else {
+        const text = document.createTextNode(i);
+        td.append(text);
+       }
+     }
+    }
+
   const tr = document.createElement('tr');
   table.append(tr);
 
-  for (let j = minTick; j <= maxTick + 1; j++) {
+    for(let i = minTick; i <= maxTick; i++) {
     const td = document.createElement('td');
-  //  let text = document.createTextNode(``);
-    tr.append(td);
-   // td.append(text);
-   td.setAttribute('width', '60px');
-   td.setAttribute('height', '60px');
-   if (j < maxTick + 1){
-    td.setAttribute('id', `p${i}t${j}`);
-   } else {
-    let text = document.createTextNode(i);
+      tr.append(td);
+      td.setAttribute('width', '60px');
+      td.setAttribute('height', '60px');
+
+    if(i < maxTick + 1) {
+    const text = document.createTextNode(i);
     td.append(text);
-   }
-
+    }
   }
 
-}
+  for(let i = 0; i < data.length; i++) {
+    const elem = document.getElementById(`p${data[i].price}t${data[i].tick}`);
+    const div = document.createElement('div');
 
-const tr = document.createElement('tr');
+    if(data[i].position === 'buy') {
+      elem.append(div);
+      div.classList.add('green');
+      div.append(document.createTextNode('buy'));
+    }
 
-table.append(tr);
-for (let j = minTick; j <= maxTick + 1; j++) {
-  const td = document.createElement('td');
-  tr.append(td);
-  if (j < maxTick + 1){
-  let text = document.createTextNode(j);
- 
-    td.append(text);
-  }
-}
-
-
-
-for (let k = 0; k < data.length; k++) {
-
-  let elem = document.getElementById(`p${data[k].price}t${data[k].tick}`);
-  const div = document.createElement('div');
-  if (data[k].position === 'buy') {
-
-    div.classList.add('green');
-    div.append(document.createTextNode('buy'));
-    elem.append(div)
-  }
-  if (data[k].position === 'sell') {
-    div.classList.add('red');
-    div.append(document.createTextNode('sell'));
-    elem.append(div)
-
+    if(data[i].position === 'sell') {
+      elem.append(div);
+      div.classList.add('red');
+      div.append(document.createTextNode('sell'));
+    }
   }
 }
 
+createTable(data);
+
+    
 
 
 
