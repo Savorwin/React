@@ -2,8 +2,6 @@
 
 const data = [
     {tick: 1, price: 120, position: 'buy', lots: 18},
-    {tick: 1, price: 120, position: 'buy', lots: 18},
-    {tick: 1, price: 120, position: 'sell', lots: 18},
     {tick: 2, price: 121, position: 'sell', lots: 18},
     {tick: 3, price: 120, position: 'sell', lots: 18},
     {tick: 4, price: 123, position: 'sell', lots: 22},
@@ -13,6 +11,55 @@ const data = [
     {tick: 8, price: 127, position: 'buy', lots: 9},
     {tick: 9, price: 128, position: 'sell', lots: 11},
 ];
+
+
+
+function createButton(className, text, data) {
+  const button = document.createElement('button');
+  document.body.append(button);
+  button.setAttribute('class', className);
+  button.append(document.createTextNode(text));
+  
+  let buttons = document.querySelectorAll('button');
+  
+  for(let i = 0; i <= buttons.length; i++) {
+    button.setAttribute('id', i);
+  }
+
+  if(button.classList.contains('button_up')) {
+    button.classList.add('upArrow');
+  }
+  if(button.classList.contains('button_down')) {
+    button.classList.add('downArrow');
+  }
+
+  button.addEventListener('click', () => {
+    if(button.classList.contains('button_up')) {
+      let elem = {
+        tick: data.length + 1,
+        price: data[data.length - 1].price + 1,
+      };
+      data.push(elem);
+      let table = document.getElementById('table');
+      table.remove();
+      createTable(data);
+    }
+    if(button.classList.contains('button_down')) {
+      let elem = {
+        tick: data.length + 1,
+        price: data[data.length - 1].price - 1,
+      };
+      data.push(elem);
+      let table = document.getElementById('table');
+      table.remove();
+      createTable(data);
+    }
+    console.log(data);
+  });
+}
+
+createButton('button_up', 'UP ', data);
+createButton('button_down', 'DOWN ', data);
 
 function createTable(data) {
   
@@ -40,6 +87,7 @@ function createTable(data) {
   const table = document.createElement('table');
 
   document.body.append(table);
+  table.setAttribute('id', 'table');
   table.setAttribute('class', 'table');
   table.setAttribute('border', '1px solid black');
 
@@ -58,6 +106,9 @@ function createTable(data) {
         } else {
         const text = document.createTextNode(i);
         td.append(text);
+        if (i === data[data.length - 1].price){
+          td.style.backgroundColor =' white';
+        }
        }
      }
     }
@@ -96,6 +147,11 @@ function createTable(data) {
 }
 
 createTable(data);
+
+
+
+
+
 
     
 
